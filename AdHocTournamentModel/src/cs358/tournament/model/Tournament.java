@@ -13,10 +13,10 @@ import java.util.ArrayList;
  */
 public class Tournament {
 	
-	final static int MAX_TEAMS = 256;
-	final static String DEFAULT_NAME = "Tournament";
-	final static char DEFAULT_SPACER_CHAR = 'X';
-	final static int NBR_NAME_CHARS_IN_CODE = 3;
+	public final static int MAX_TEAMS = 256;
+	private final static String DEFAULT_NAME = "Tournament";
+	private final static char DEFAULT_SPACER_CHAR = 'X';
+	private final static int NBR_NAME_CHARS_IN_CODE = 3;
 	
 	static Integer accessCodeSeed = 1111;
 
@@ -26,7 +26,7 @@ public class Tournament {
 	private LocalDateTime mStartDate;   //start date of the tournament
 	private LocalDateTime mEndDate;   //start date of the tournament
 
-	//private TeamManager mTeamManager;  //team's manager
+	private TeamManager mTeamManager;  //team's manager
 	//private Bracket mBracket;  //Brackets for the tournament
 	
 	//participants not yet assigned to a team
@@ -42,7 +42,7 @@ public class Tournament {
 		if (name == null || name.isBlank()) {
 			mName = DEFAULT_NAME;
 		} else {
-			mName = name;
+			mName = name.trim();
 		}
 		
 		//generate a unique access code
@@ -51,6 +51,8 @@ public class Tournament {
 		//default to start today and end it tomorrow
 		mStartDate = LocalDate.now().atTime(0, 0);
 		mEndDate = mStartDate.plusDays(1);
+		
+		mTeamManager = new TeamManager();
 	}
 		
   public void setDates( LocalDateTime start, LocalDateTime end) throws Exception {
@@ -101,11 +103,29 @@ public class Tournament {
   	return mUnattachedParticipants;
   	
 	}
+  
+  
+  /**
+   * removeAllUnattachedParticipants - remove all participant without a team
+   * 
+ 	 */
+  public void removeAllUnattachedParticipants() {
+  
+  	mUnattachedParticipants.clear();
+  	
+	}
 	/**
 	 * @return the Name
 	 */
 	public String getName() {
 		return mName;
+	}
+	
+	/**
+	 * @return the TeamManager
+	 */
+	public TeamManager getTeamManager() {
+		return mTeamManager;
 	}
 
 	/**
