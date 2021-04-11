@@ -82,8 +82,24 @@ public class Tournament {
    * 
    * @param participant - a person who wants to be in the tournament
 	 */
-  public void addParticipant(Participant participant) {
-		mUnattachedParticipants.add(participant);
+  public void addParticipant(Participant participant) throws Exception {
+  	if (!mUnattachedParticipants.contains(participant)) {
+  		mUnattachedParticipants.add(participant);
+  	} else {
+  		throw new Exception("duplicate participant");
+  	}
+  	
+	}
+  
+  /**
+   * getUnattachedParticipants - return all participants that are not on teams yet
+   * 
+   * @return ArrayList<Participant>
+	 */
+  public ArrayList<Participant> getUnattachedParticipants() {
+
+  	return mUnattachedParticipants;
+  	
 	}
 	/**
 	 * @return the Name

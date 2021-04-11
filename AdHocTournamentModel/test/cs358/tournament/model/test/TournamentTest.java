@@ -5,9 +5,11 @@ import org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
 
+import cs358.tournament.model.Participant;
 import cs358.tournament.model.Tournament;
 
 class TournamentTest {
@@ -130,5 +132,31 @@ class TournamentTest {
 		}
 	  Assertions.assertTrue(exceptionWasThrown);
 	}
+
+	@Test void addParticipantsTest() {
+		
+	  Tournament pingPong = new Tournament("Ping Pong");
+		
+	
+		for (int i=0; i< 30; i++) {
+			try {
+				pingPong.addParticipant(new Participant("Joe"+i,"Schmoe","Fake place"));
+			} catch (Exception e) {
+				Assertions.fail("exception adding participants");
+			}
+			Assertions.assertEquals(i+1, pingPong.getUnattachedParticipants().size());
+		}
+		
+		//add a duplicate
+	  Boolean exceptionWasThrown =false;
+		try {
+			pingPong.addParticipant(new Participant("Joe0","Schmoe","Fake place"));
+		} catch (Exception e) {
+			exceptionWasThrown =true;
+		}
+		Assertions.assertTrue(exceptionWasThrown);
+		Assertions.assertEquals(30, pingPong.getUnattachedParticipants().size());
+	}
+	
 
 }
