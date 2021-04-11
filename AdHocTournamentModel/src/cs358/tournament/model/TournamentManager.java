@@ -1,5 +1,6 @@
 package cs358.tournament.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -14,7 +15,7 @@ public class TournamentManager {
 	private HashMap<String, Tournament> mTournaments;
 	
 	//singleton instance
-	private static TournamentManager mInstance = null;
+	private static TournamentManager instance = null;
 	
 	
 	//private constructor
@@ -24,15 +25,41 @@ public class TournamentManager {
 	
 	/**
 	 * getInstance returns the TournamentManager singleton
-	 * @return
+	 * @return TournamentManager
 	 */
 	public static TournamentManager getInstance() {
 	
 	  //if instance hasn't been created yet
-		if (mInstance == null) {
-			mInstance = new TournamentManager();
+		if (instance == null) {
+			instance = new TournamentManager();
 		}
 		
-		return mInstance;
+		return instance;
+	}
+	
+	/**
+	 * findTournament - finds the tournament based on the access code
+	 * @return Tournament
+	 *
+	 */
+	public Tournament findTournament(String accessCode) {
+		return mTournaments.get(accessCode);
+	}
+	
+	/**
+	 * addTournament - add tournament to the manager
+	 * @param Tournament
+	 *
+	 */
+	public void addTournament(Tournament tourney) {
+		mTournaments.put(tourney.getAccessCode(), tourney);
+	}
+	
+	/**
+	 * getAllTournaments - return all tournaments
+	 *
+	 */
+	public ArrayList<Tournament> getAllTournaments() {
+		return new ArrayList<Tournament>(mTournaments.values());
 	}
 }
