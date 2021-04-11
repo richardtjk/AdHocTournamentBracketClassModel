@@ -58,13 +58,12 @@ public class Tournament {
   	LocalDateTime now = LocalDate.now().atTime(0,0);
 		//if not given, start it now
 		if (start == null) {
-			mStartDate = now;
-			
-		//if past start  given, throw exception
-		} else if (start.isAfter(now)) {
-			throw new Exception("Invalid start date");
-		} else {
+			mStartDate = now;		
+		} else if (start.isAfter(now) || start.isEqual(now)) {
 			mStartDate = start;
+		} else {
+		  //if past start  given, throw exception
+			throw new Exception("Invalid start date");
 		}
 		
 		//if end date is not given, end it the next day
@@ -97,7 +96,13 @@ public class Tournament {
 	 * set the Name
 	 */
 	public void setName(String name) {
-		this.mName = name;
+		//use a default name if a name is not provided
+		if (name == null || name.isBlank()) {
+			mName = DEFAULT_NAME;
+		} else {
+			mName = name;
+		}
+		
 	}
 
 	/**

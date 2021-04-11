@@ -38,7 +38,7 @@ class TournamentTest {
 	}
 	
 	@Test
-	void nullConstructorTest1() {
+	void nullConstructorTest() {
       Tournament nullTourney = new Tournament(null);
       
       //check default start date is today
@@ -60,6 +60,75 @@ class TournamentTest {
  
       
 	}
+	
+	@Test
+	void setNameTests() {
+	  Tournament pingPong = new Tournament("Ping Pong");
+	  
+	  pingPong.setName("Family Reunion Ping Pong Tournament");
+	  Assertions.assertEquals("Family Reunion Ping Pong Tournament", pingPong.getName());
+	  
+	  //use default name on bad input
+	  pingPong.setName("     ");
+	  Assertions.assertEquals("Tournament", pingPong.getName());
+	  
+	  //use default name on null
+	  pingPong.setName(null);
+	  Assertions.assertEquals("Tournament", pingPong.getName());
+	  
+	}
 
+	
+	@Test
+	void setValidDatesTests() {
+	  Tournament pingPong = new Tournament("Ping Pong");
+	  
+	  
+    LocalDateTime now = LocalDate.now().atTime(0,0);
+    
+    //valid dates
+	  try {
+			pingPong.setDates(now, now.plusDays(1));
+		} catch (Exception e) {
+			Assertions.fail("valid dates threw an exception");
+		}
+	  
+	}
+
+	@Test
+	void setStartAfterEndDatesTests() {
+	  Tournament pingPong = new Tournament("Ping Pong");
+	  
+	  
+    LocalDateTime now = LocalDate.now().atTime(0,0);
+  
+	  
+    //start after end
+	  boolean exceptionWasThrown =false;
+	  try {
+			pingPong.setDates(now.plusDays(1), now);
+		} catch (Exception e) {
+			exceptionWasThrown = true;
+		}
+	  Assertions.assertTrue(exceptionWasThrown);
+	  
+	}
+	
+	@Test
+	void setStartAfterTodayTests() {
+	  Tournament pingPong = new Tournament("Ping Pong");
+	  
+	  
+    LocalDateTime now = LocalDate.now().atTime(0,0);
+	  
+    //start before today
+	  Boolean exceptionWasThrown =false;
+	  try {
+			pingPong.setDates(now.minusDays(1), now);
+		} catch (Exception e) {
+			exceptionWasThrown = true;
+		}
+	  Assertions.assertTrue(exceptionWasThrown);
+	}
 
 }
