@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class RandomTeamBuilder {
+	
+	ArrayList<Participant> mPlayingList;
 
 	public void fillTeams(Tournament tourney) throws Exception {
 		
@@ -41,23 +43,22 @@ public class RandomTeamBuilder {
 		}
 		
 	  //remove extra players
-		ArrayList<Participant> playingList = null;
 		if (nbrParticipants > (nbrTeams*maxSize)) {
-			playingList = new ArrayList<Participant>(allList.subList(0, (nbrTeams*maxSize-1)));
+			mPlayingList = new ArrayList<Participant>(allList.subList(0, (nbrTeams*maxSize-1)));
 		} else {
-			playingList = (ArrayList<Participant>)allList.clone();
+			mPlayingList = (ArrayList<Participant>)allList.clone();
 		}
 
-
-		Collections.shuffle(playingList);
+    mix();
+	
 		
     ArrayList<Team> teamList = new ArrayList<Team>();
 		for (int i = 1; i<= nbrTeams; i++) {
 			teamList.add(new Team("Team"+i));
 		}
 		
-		for (int i = 0; i < playingList.size(); i++) {
-			teamList.get(i % nbrTeams).addMember(playingList.get(i));
+		for (int i = 0; i < mPlayingList.size(); i++) {
+			teamList.get(i % nbrTeams).addMember(mPlayingList.get(i));
 		}	
 			
 		for (int i = 0; i< nbrTeams; i++) {
@@ -75,6 +76,10 @@ public class RandomTeamBuilder {
 			tourney.removeAllUnattachedParticipants();
 		}
 		
+	}
+	
+	protected void mix() {
+		Collections.shuffle(mPlayingList);
 	}
 	
 }
